@@ -1,0 +1,114 @@
+[package]
+name = "rust-ecommerce"
+version = "0.1.0"
+edition = "2021"
+authors = ["Your Name <your.email@example.com>"]
+description = "E-commerce platform built with Rust, Actix-web, PostgreSQL"
+
+[dependencies]
+# Web framework
+actix-web = "4.5"
+actix-cors = "0.7"
+actix-files = "0.6"
+
+# Async runtime
+tokio = { version = "1.36", features = ["full"] }
+
+# Database
+sqlx = { version = "0.7", features = [
+    "runtime-tokio-rustls",
+    "postgres",
+    "uuid",
+    "chrono",
+    "json",
+    "migrate",
+    "macros",
+] }
+
+# Serialization
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+# Date/Time
+chrono = { version = "0.4", features = ["serde"] }
+
+# UUID
+uuid = { version = "1.7", features = ["serde", "v4"] }
+
+# Authentication & Security
+jsonwebtoken = "9.2"
+argon2 = "0.5"
+rand = "0.8"
+
+# Validation
+validator = { version = "0.16", features = ["derive"] }
+
+# Error handling
+anyhow = "1.0"
+thiserror = "1.0"
+
+# Environment variables
+dotenv = "0.15"
+
+# Logging
+env_logger = "0.11"
+log = "0.4"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+tracing-actix-web = "0.7"
+
+# Utilities
+slugify = "0.1"
+rust_decimal = "1.34"
+rust_decimal_macros = "1.34"
+
+[dev-dependencies]
+# Testing
+testcontainers = "0.15"
+reqwest = { version = "0.11", features = ["json"] }
+fake = { version = "2.9", features = ["derive", "chrono", "uuid"] }
+serial_test = "3.0"
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+
+[profile.dev]
+opt-level = 0
+
+[profile.test]
+opt-level = 0
+
+[[bin]]
+name = "rust-ecommerce"
+path = "src/main.rs"
+
+[lib]
+name = "rust_ecommerce"
+path = "src/lib.rs"
+
+# Integration tests
+[[test]]
+name = "auth_tests"
+path = "tests/integration/auth_tests.rs"
+
+[[test]]
+name = "user_tests"
+path = "tests/integration/user_tests.rs"
+
+[[test]]
+name = "product_tests"
+path = "tests/integration/product_tests.rs"
+
+[[test]]
+name = "cart_tests"
+path = "tests/integration/cart_tests.rs"
+
+[[test]]
+name = "order_tests"
+path = "tests/integration/order_tests.rs"
+
+[[test]]
+name = "coupon_tests"
+path = "tests/integration/coupon_tests.rs"
