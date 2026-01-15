@@ -29,6 +29,7 @@ pub fn configure_routes(cfg: &mut web::ServiceConfig) {
             .configure(handlers::auth_handler::configure_routes)
             .configure(handlers::category_handler::configure_routes)
             .configure(handlers::product_handler::configure_routes)
+            .configure(handlers::blog_handler::configure_routes)
             .service(
                 web::scope("")
                     .wrap(actix_web::middleware::from_fn(middleware::auth::auth_middleware))
@@ -38,7 +39,9 @@ pub fn configure_routes(cfg: &mut web::ServiceConfig) {
                     .configure(handlers::product_handler::configure_wishlist_routes)
                     .configure(handlers::cart_handler::configure_routes)
                     .configure(handlers::order_handler::configure_routes)
-                    .configure(handlers::order_handler::configure_admin_routes),
+                    .configure(handlers::order_handler::configure_admin_routes)
+                    .configure(handlers::coupon_handler::configure_routes)
+                    .configure(handlers::blog_handler::configure_auth_routes),
             ),
     );
 }

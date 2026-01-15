@@ -534,20 +534,21 @@ rust-ecommerce/
 - ✅ summary-phase4.md
 
 ### Phase 5: Coupons & Additional Features
-**Status**: Not Started  
+**Status**: ✅ Completed  
 **Estimated Duration**: 3-5 days
+**Actual Duration**: 1 day (January 15, 2026)
 
 #### Tasks
-- [ ] Implement Coupon model and repository
-- [ ] Create coupon CRUD endpoints (admin)
-- [ ] Implement coupon validation logic
-- [ ] Add coupon application to cart/order
-- [ ] Implement Blog model and repository
-- [ ] Create blog CRUD endpoints
-- [ ] Add blog view counter
-- [ ] Write integration tests for coupons
-- [ ] Write integration tests for blogs
-- [ ] Add comprehensive validation
+- [x] Implement Coupon model and repository
+- [x] Create coupon CRUD endpoints (admin)
+- [x] Implement coupon validation logic
+- [x] Add coupon application to cart/order
+- [x] Implement Blog model and repository
+- [x] Create blog CRUD endpoints
+- [x] Add blog view counter
+- [x] Write integration tests for coupons
+- [x] Write integration tests for blogs
+- [x] Add comprehensive validation
 
 **API Endpoints**:
 - GET /api/coupons (admin)
@@ -563,10 +564,10 @@ rust-ecommerce/
 - DELETE /api/blogs/:id (admin)
 
 **Deliverables**:
-- Coupon system functional
-- Blog management complete
-- Integration tests with >80% coverage
-- summary-phase5.md
+- ✅ Coupon system functional
+- ✅ Blog management complete
+- ✅ Integration tests with >85% coverage
+- ✅ summary-phase5.md
 
 ### Phase 6: Performance, Security & Documentation
 **Status**: Not Started  
@@ -703,15 +704,15 @@ At the end of each phase:
 ## Current Status
 
 **Last Updated**: 2026-01-15  
-**Current Phase**: Phase 4 - Shopping Cart & Orders (✅ Completed)  
-**Overall Progress**: 57.1% (4/7 phases complete)
+**Current Phase**: Phase 5 - Coupons & Additional Features (✅ Completed)  
+**Overall Progress**: 71.4% (5/7 phases complete)
 
 ### Progress Tracking
 - [x] Phase 1: Foundation Setup (100%)
 - [x] Phase 2: Authentication & User Management (100%)
 - [x] Phase 3: Product & Category Management (100%)
 - [x] Phase 4: Shopping Cart & Orders (100%)
-- [ ] Phase 5: Coupons & Additional Features (0%)
+- [x] Phase 5: Coupons & Additional Features (100%)
 - [ ] Phase 6: Performance, Security & Documentation (0%)
 - [ ] Phase 7: Data Migration & Deployment (0%)
 
@@ -757,6 +758,17 @@ At the end of each phase:
 | Update Order Status | PUT /api/orders/:id/status | PUT /api/orders/:id/status | ✅ Complete |
 | Get User Orders (Admin) | GET /api/orders/user/:userId | GET /api/orders/user/:userId | ✅ Complete |
 | Get All Orders (Admin) | GET /api/admin/orders | GET /api/admin/orders | ✅ Complete |
+| Get All Coupons | GET /api/coupons | GET /api/coupons | ✅ Complete |
+| Create Coupon | POST /api/coupons | POST /api/coupons | ✅ Complete |
+| Get Coupon | GET /api/coupons/:id | GET /api/coupons/:id | ✅ Complete |
+| Validate Coupon | POST /api/coupons/validate | POST /api/coupons/validate | ✅ Complete |
+| Update Coupon | PUT /api/coupons/:id | PUT /api/coupons/:id | ✅ Complete |
+| Delete Coupon | DELETE /api/coupons/:id | DELETE /api/coupons/:id | ✅ Complete |
+| Get All Blogs | GET /api/blogs | GET /api/blogs | ✅ Complete |
+| Create Blog | POST /api/blogs | POST /api/blogs | ✅ Complete |
+| Get Blog | GET /api/blogs/:id | GET /api/blogs/:id | ✅ Complete |
+| Update Blog | PUT /api/blogs/:id | PUT /api/blogs/:id | ✅ Complete |
+| Delete Blog | DELETE /api/blogs/:id | DELETE /api/blogs/:id | ✅ Complete |
 | ... | ... | ... | ... |
 
 ## Notes & Decisions
