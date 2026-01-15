@@ -8,6 +8,7 @@ pub mod repositories;
 pub mod services;
 pub mod utils;
 
+use actix_cors::Cors;
 use actix_web::{middleware::Logger, web, App, HttpResponse, HttpServer};
 use sqlx::PgPool;
 
@@ -26,6 +27,7 @@ pub fn configure_routes(cfg: &mut web::ServiceConfig) {
     cfg.service(
         web::scope("/api")
             .route("/health", web::get().to(health_check))
+            .configure(handlers::monitoring_handler::configure_routes)
             .configure(handlers::auth_handler::configure_routes)
             .configure(handlers::category_handler::configure_routes)
             .configure(handlers::product_handler::configure_routes)
@@ -49,9 +51,33 @@ pub fn configure_routes(cfg: &mut web::ServiceConfig) {
 pub async fn run(pool: PgPool, port: u16) -> std::io::Result<()> {
     log::info!("Starting server on port {}", port);
 
+    // Initialize monitoring
+    handlers::monitoring_handler::init_monitoring();
+
+    // Get allowed origins from environment or use default
+    let allowed_origin = std::env::var("ALLOWED_ORIGIN")
+        .unwrap_or_else(|_| "http://localhost:3000".to_string());
+
+    log::info!("CORS allowed origin: {}", allowed_origin);
+
     HttpServer::new(move || {
+        // Configure CORS
+        let cors = Cors::default()
+            .allowed_origin(&allowed_origin)
+            .allowed_origin("http://localhost:5173") // Vite dev server
+            .allowed_methods(vec!["GET", "POST", "PUT", "DELETE", "PATCH"])
+            .allowed_headers(vec![
+                actix_web::http::header::AUTHORIZATION,
+                actix_web::http::header::ACCEPT,
+                actix_web::http::header::CONTENT_TYPE,
+            ])
+            .max_age(3600)
+            .supports_credentials();
+
         App::new()
+            .wrap(cors)
             .wrap(Logger::default())
+            .wrap(middleware::rate_limit::api_rate_limiter())
             .app_data(web::Data::new(AppState { db: pool.clone() }))
             .configure(configure_routes)
     })
