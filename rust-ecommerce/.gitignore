@@ -1,0 +1,6 @@
+.env
+.env.test
+target/
+*.db
+*.db-shm
+*.db-wal
