@@ -162,10 +162,59 @@ sudo systemctl restart postgresql
 # Build the application first
 cargo build --release
 
-# Run migrations
+# Run migrations using SQLx CLI
 DATABASE_URL=postgresql://ecommerce_user:password@localhost:5432/ecommerce_db \
-./target/release/rust_ecommerce migrate
+sqlx migrate run
 ```
+
+### 4. Migrate Data from MongoDB (Optional)
+
+If migrating from an existing MongoDB installation:
+
+```bash
+# Install Python dependencies
+cd scripts
+pip3 install -r requirements.txt
+
+# Run the migration script
+./run_migration.sh /path/to/mongodb/dump/ecommercedb
+
+# Or manually:
+python3 migrate_mongo_to_postgres.py \
+    --dump-dir /path/to/mongodb/dump/ecommercedb \
+    --db-url "postgresql://ecommerce_user:password@localhost:5432/ecommerce_db" \
+    --clear
+```
+
+**Migration Process:**
+1. The script reads BSON files from MongoDB dump
+2. Converts MongoDB ObjectIds to PostgreSQL UUIDs
+3. Maintains referential integrity between tables
+4. Handles data type conversions
+5. Logs any skipped records due to missing references
+
+**Verification:**
+```sql
+-- Connect to database
+psql -U ecommerce_user -d ecommerce_db
+
+-- Check migrated data counts
+SELECT 'users' as table_name, COUNT(*) FROM users
+UNION ALL
+SELECT 'products', COUNT(*) FROM products
+UNION ALL
+SELECT 'orders', COUNT(*) FROM orders;
+
+-- Verify relationships
+SELECT u.email, COUNT(o.id) as order_count
+FROM users u
+LEFT JOIN orders o ON u.id = o.user_id
+GROUP BY u.email
+ORDER BY order_count DESC
+LIMIT 5;
+```
+
+See `scripts/MIGRATION_TEST.md` for detailed testing procedures.
 
 ---
 
