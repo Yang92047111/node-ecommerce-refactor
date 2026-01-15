@@ -63,8 +63,7 @@ pub async fn create_blog(
     req.validate()
         .map_err(|e| AppError::ValidationError(e.to_string()))?;
 
-    let user_id = Uuid::parse_str(&user.id)
-        .map_err(|_| AppError::ValidationError("Invalid user ID".to_string()))?;
+    let user_id = user.id;
 
     let blog = BlogService::create_blog(&state.db, req.into_inner(), &user_id).await?;
     Ok(HttpResponse::Created().json(blog))
@@ -82,8 +81,7 @@ pub async fn update_blog(
         .map_err(|e| AppError::ValidationError(e.to_string()))?;
 
     let blog_id = blog_id.into_inner();
-    let user_id = Uuid::parse_str(&user.id)
-        .map_err(|_| AppError::ValidationError("Invalid user ID".to_string()))?;
+    let user_id = user.id;
     let is_admin = user.role == UserRole::Admin.as_str();
 
     let blog = BlogService::update_blog(&state.db, &blog_id, req.into_inner(), &user_id, is_admin)
@@ -98,8 +96,7 @@ pub async fn delete_blog(
     blog_id: web::Path<Uuid>,
 ) -> Result<HttpResponse, AppError> {
     let blog_id = blog_id.into_inner();
-    let user_id = Uuid::parse_str(&user.id)
-        .map_err(|_| AppError::ValidationError("Invalid user ID".to_string()))?;
+    let user_id = user.id;
     let is_admin = user.role == UserRole::Admin.as_str();
 
     BlogService::delete_blog(&state.db, &blog_id, &user_id, is_admin).await?;

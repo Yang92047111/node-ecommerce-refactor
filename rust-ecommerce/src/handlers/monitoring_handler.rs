@@ -59,11 +59,14 @@ pub async fn health_check(pool: web::Data<crate::AppState>) -> impl Responder {
         .unwrap()
         .as_secs();
 
-    let start_time = START_TIME.get().unwrap_or(&SystemTime::now());
-    let uptime = SystemTime::now()
-        .duration_since(*start_time)
-        .unwrap()
-        .as_secs();
+    let uptime = if let Some(start_time) = START_TIME.get() {
+        SystemTime::now()
+            .duration_since(*start_time)
+            .unwrap()
+            .as_secs()
+    } else {
+        0
+    };
 
     // Check database connection
     let db_health = check_database_health(&pool.db).await;
@@ -153,7 +156,7 @@ async fn check_database_health(pool: &PgPool) -> DatabaseHealth {
         status,
         connections: ConnectionStats {
             active,
-            idle,
+            idle: idle as u32,
             max,
         },
     }
