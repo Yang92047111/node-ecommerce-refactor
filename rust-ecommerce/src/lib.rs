@@ -35,7 +35,10 @@ pub fn configure_routes(cfg: &mut web::ServiceConfig) {
                     .configure(handlers::user_handler::configure_routes)
                     .configure(handlers::category_handler::configure_admin_routes)
                     .configure(handlers::product_handler::configure_admin_routes)
-                    .configure(handlers::product_handler::configure_wishlist_routes),
+                    .configure(handlers::product_handler::configure_wishlist_routes)
+                    .configure(handlers::cart_handler::configure_routes)
+                    .configure(handlers::order_handler::configure_routes)
+                    .configure(handlers::order_handler::configure_admin_routes),
             ),
     );
 }

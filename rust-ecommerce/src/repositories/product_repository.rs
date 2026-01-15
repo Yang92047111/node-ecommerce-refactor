@@ -258,6 +258,33 @@ impl ProductRepository {
 
         Ok(())
     }
+
+    /// Update product quantity and sold count after order
+    pub async fn update_quantity(
+        pool: &PgPool,
+        product_id: &Uuid,
+        quantity_sold: i32,
+    ) -> Result<(), AppError> {
+        sqlx::query(
+            r#"
+            UPDATE products 
+            SET quantity = quantity - $1,
+                sold = sold + $1,
+                updated_at = NOW()
+            WHERE id = $2 AND quantity >= $1
+            "#,
+        )
+        .bind(quantity_sold)
+        .bind(product_id)
+        .execute(pool)
+        .await
+        .map_err(|e| {
+            log::error!("Failed to update product quantity: {}", e);
+            AppError::DatabaseError(e.to_string())
+        })?;
+
+        Ok(())
+    }
 }
 
 // Rating Repository
