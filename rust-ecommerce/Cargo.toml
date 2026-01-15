@@ -9,9 +9,10 @@ actix-cors = "0.7"
 
 # Async runtime
 tokio = { version = "1.35", features = ["full"] }
+futures = "0.3"
 
 # Database
-sqlx = { version = "0.7", features = ["runtime-tokio-rustls", "postgres", "uuid", "chrono", "migrate"] }
+sqlx = { version = "0.7", features = ["runtime-tokio-rustls", "postgres", "uuid", "chrono", "migrate", "rust_decimal", "json"] }
 
 # Serialization
 serde = { version = "1.0", features = ["derive"] }
@@ -22,6 +23,12 @@ uuid = { version = "1.6", features = ["serde", "v4"] }
 
 # Date/Time
 chrono = { version = "0.4", features = ["serde"] }
+
+# Decimal numbers
+rust_decimal = { version = "1.33", features = ["serde-with-str"] }
+
+# Regular expressions
+regex = "1.10"
 
 # Authentication & Security
 jsonwebtoken = "9.2"

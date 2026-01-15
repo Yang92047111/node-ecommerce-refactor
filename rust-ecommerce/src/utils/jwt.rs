@@ -149,9 +149,11 @@ mod tests {
     use super::*;
 
     fn setup_test_env() {
-        std::env::set_var("JWT_SECRET", "test_secret_key_for_testing_only");
-        std::env::set_var("JWT_ACCESS_EXPIRATION", "900");
-        std::env::set_var("JWT_REFRESH_EXPIRATION", "604800");
+        unsafe {
+            std::env::set_var("JWT_SECRET", "test_secret_key_for_testing_only");
+            std::env::set_var("JWT_ACCESS_EXPIRATION", "900");
+            std::env::set_var("JWT_REFRESH_EXPIRATION", "604800");
+        }
     }
 
     #[test]

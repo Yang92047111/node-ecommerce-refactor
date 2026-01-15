@@ -32,12 +32,6 @@ pub enum AppError {
     ValidationError(String),
 }
 
-impl fmt::Display for AppError {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "{}", self)
-    }
-}
-
 impl ResponseError for AppError {
     fn status_code(&self) -> StatusCode {
         match self {

@@ -27,10 +27,15 @@ pub fn configure_routes(cfg: &mut web::ServiceConfig) {
         web::scope("/api")
             .route("/health", web::get().to(health_check))
             .configure(handlers::auth_handler::configure_routes)
+            .configure(handlers::category_handler::configure_routes)
+            .configure(handlers::product_handler::configure_routes)
             .service(
                 web::scope("")
                     .wrap(actix_web::middleware::from_fn(middleware::auth::auth_middleware))
-                    .configure(handlers::user_handler::configure_routes),
+                    .configure(handlers::user_handler::configure_routes)
+                    .configure(handlers::category_handler::configure_admin_routes)
+                    .configure(handlers::product_handler::configure_admin_routes)
+                    .configure(handlers::product_handler::configure_wishlist_routes),
             ),
     );
 }
