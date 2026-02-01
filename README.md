@@ -20,27 +20,82 @@ Technologies Used
 - JWT for authentication
 
 Getting Started
-1. Clone the repository:
+
+### 🐳 Docker Deployment (Recommended)
+
+The easiest way to run this application is using Docker. All deployment files are organized in the `deploy/` directory:
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/shazaaly/node-ecommerce
+   cd node-ecommerce-main
    ```
-   git clone [https://github.com/your-username/node-ecommerce-project.git](https://github.com/shazaaly/node-ecommerce)
+
+2. **Setup environment:**
+   ```bash
+   cp deploy/config/.env.example .env
+   # Edit .env with your configuration
    ```
-2. Install dependencies:
+
+3. **Deploy with one command:**
+   ```bash
+   chmod +x deploy/scripts/deploy.sh
+   ./deploy/scripts/deploy.sh
    ```
+
+4. **Access the application:**
+   - Frontend: http://localhost
+   - Backend API: http://localhost:3000
+   - API Docs: http://localhost:3000/api-docs
+
+5. **Test the endpoints:**
+   ```bash
+   ./deploy/scripts/test-api.sh
+   # or
+   node deploy/scripts/test-endpoints.js
+   ```
+
+📚 **Complete Deployment Documentation:**
+- 📂 [Deploy Directory](./deploy/README.md) - Complete deployment guide and structure
+- 🚀 [Get Started Guide](./deploy/docs/GET_STARTED.md) - Beginner's deployment guide
+- 🐳 [Docker Deployment](./deploy/docs/DOCKER_DEPLOYMENT.md) - Detailed Docker instructions
+- 🧪 [API Testing Guide](./deploy/docs/API_TESTING.md) - Comprehensive testing documentation
+- ⚡ [Quick Reference](./deploy/docs/QUICK_REFERENCE.md) - Handy command reference
+
+**Directory Structure:**
+```
+deploy/
+├── config/          # Docker and configuration files
+├── docs/            # All deployment documentation
+├── scripts/         # Deployment and testing scripts
+└── README.md        # Deployment overview
+```
+
+### 💻 Manual Installation
+
+1. Install dependencies:
+   ```bash
    npm install
    ```
-3. Set up environment variables:
+
+2. Set up environment variables:
    - Create a `.env` file in the root directory
    - Define the following variables:
      ```
      PORT=3000
-     MONGODB_URI=mongodb://localhost:27017/ecommerce
-     SESSION_SECRET=your_session_secret
+     MONGO_URL=mongodb://localhost:27017/ecommercedb
+     JWT_SECRET=your_jwt_secret
+     REFRESH_TOKEN_SECRET=your_refresh_token_secret
      ```
+
+3. Run MongoDB and Elasticsearch locally
+
 4. Run the application:
-   ```
+   ```bash
    npm start
    ```
-5. Access the application in your browser at `http://localhost:3000`
+
+5. Access the application at `http://localhost:3000`
 
 Folder Structure
 - `config/`: Configuration files (e.g., database connection, authentication strategies).
